@@ -1,0 +1,289 @@
+<h2>Process Inbox</h2>
+<form [formGroup]="inboxForm" (ngSubmit)="onSubmit()">
+    <div class="flex flex-col">
+        <!-- Basic thought info -->
+        <mat-form-field class="w-full">
+            <mat-label>Thought</mat-label>
+            <input
+                matInput
+                [value]="thought"
+                [disabled]="true"
+            />
+        </mat-form-field>
+        <mat-form-field class="w-full">
+            <mat-label>Comment</mat-label>
+            <textarea
+                matInput
+                [disabled]="true"
+                >{{ comment }}
+            </textarea>
+        </mat-form-field>
+        <!-- Actionablility -->
+        <div>
+            <label id="project-radio-group-label">
+                Is it actionable?
+            </label>
+            <mat-radio-group
+                class="mb-3"
+                formControlName="isActionable"
+                aria-label="Is it actionable?"
+            >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <!-- Not actionable -->
+    <div
+        class="flex space-x-5 mt-3 items-center"
+        *ngIf="inboxForm.get('isActionable')?.value === 'no'"
+    >
+        <button
+            mat-fab
+            matTooltip="Discard"
+            color="primary"
+            aria-label="Icon-button with a delete icon"
+            (click)="(onDiscard)"
+        >
+            <mat-icon>delete</mat-icon>
+        </button>
+        <button
+            mat-fab
+            matTooltip="Someday | Maybe"
+            color="primary"
+            aria-label="Icon-button with a calendar icon"
+            (click)="(onSomedayMaybe)"
+        >
+            <mat-icon>event_upcoming</mat-icon>
+        </button>
+        <button
+            mat-fab
+            matTooltip="Reference | Support"
+            color="primary"
+            aria-label="Icon-button with a book icon"
+            (click)="(onReferenceSupport)"
+        >
+            <mat-icon>library_books</mat-icon>
+        </button>
+    </div>
+    <!-- Actionable -->
+    <div
+        class="flex flex-wrap items-center"
+        *ngIf="inboxForm.get('isActionable')?.value === 'yes'"
+    >
+        <!-- Is this a project? -->
+        <div class="w-full">
+            <label id="project-radio-group-label">
+                Potentially more than a single step?
+            </label>
+            <mat-radio-group
+                formControlName="isProject"
+                aria-labelledby="project-radio-group-label"
+            >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <!-- Single action -->
+        <div
+            class="w-full"
+            *ngIf="inboxForm.get('isProject')?.value === 'no'"
+        >
+            <label id="project-radio-group-label">
+                Can it be completed in less than 2 minutes?
+            </label>
+            <mat-radio-group
+                formControlName="isQuickAction"
+                aria-labelledby="quick-actions-radio-group-label"
+            >
+                <mat-radio-button value="yes">Yes</mat-radio-button>
+                <mat-radio-button value="no">No</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <!-- Handle quick ction -->
+        <div
+            class="w-full space-x-5 mt-3"
+            *ngIf=" inboxForm.get('isProject')?.value === 'no' &&
+                    inboxForm.get('isQuickAction')?.value === 'yes'"
+        >
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="(onStartNow)"
+            >
+                Start Now
+            </button>
+            <button
+                mat-raised-button
+                color="primary"
+                (click)="(onComplete)"
+            >
+                Complete
+            </button>
+        </div>
+        <!-- Add single action -->
+        <div class="w-full space-x-5 mt-3"
+            *ngIf="inboxForm.get('isProject')?.value === 'yes' ||
+                    (inboxForm.get('isProject')?.value === 'no' &&
+                    inboxForm.get('isQuickAction')?.value === 'no')"
+        >
+            <mat-form-field class="w-full">
+                <mat-label>Successful Outcome</mat-label>
+                <textarea
+                    matInput
+                    formControlName="successfulOutcome"
+                    >
+                </textarea>
+            </mat-form-field>
+        </div>
+        <mat-card *ngIf="inboxForm.get('isProject')?.value === 'yes' ||
+                    (inboxForm.get('isProject')?.value === 'no' &&
+                    inboxForm.get('isQuickAction')?.value === 'no')"
+                    class="w-full"
+        >
+            <mat-card-content>
+                <h3>Next Action</h3>
+                <mat-form-field class="w-full ml-0">
+                    <mat-label>Description</mat-label>
+                    <input
+                        matInput
+                        formControlName="description"
+                    />
+                </mat-form-field>
+                <div class="w-full space-x-5 mt-3">
+                    <mat-form-field>
+                        <mat-label>Context</mat-label>
+                        <mat-select formControlName="context">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Duration</mat-label>
+                        <mat-select formControlName="duration">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Energy</mat-label>
+                        <mat-select formControlName="energy">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Priority</mat-label>
+                        <mat-select formControlName="priority">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="w-full space-x-5 mt-3">
+                    <mat-form-field>
+                        <mat-label>Status</mat-label>
+                        <mat-select formControlName="status">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Due date</mat-label>
+                        <input matInput [matDatepicker]="dueDate" formControlName="dueDate">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="dueDate"></mat-datepicker-toggle>
+                        <mat-datepicker #dueDate></mat-datepicker>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Start date</mat-label>
+                        <input matInput [matDatepicker]="startDate" formControlName="startDate">
+                        <mat-hint>MM/DD/YYYY</mat-hint>
+                        <mat-datepicker-toggle matIconSuffix [for]="startDate"></mat-datepicker-toggle>
+                        <mat-datepicker #startDate></mat-datepicker>
+                    </mat-form-field>
+                </div>
+                <div class="w-full space-x-5 mt-3">
+                    <mat-form-field class="w-full">
+                        <mat-label>Notes</mat-label>
+                        <textarea
+                            matInput
+                            formControlName="notes"
+                            >
+                        </textarea>
+                    </mat-form-field>
+                </div>
+                <mat-divider></mat-divider>
+                <h3 class="pt-3">Goals</h3>
+                <div class="space-x-5" formGroupName="goals">
+                    <mat-form-field>
+                        <mat-label>Responsibilities</mat-label>
+                        <mat-select formControlName="responsibilities">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Short Term Goals</mat-label>
+                        <mat-select formControlName="shortTermGoals">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Medium Term Goals</mat-label>
+                        <mat-select formControlName="mediumTermGoals">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Long Term Goals</mat-label>
+                        <mat-select formControlName="longTermGoals">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
+                        <mat-label>Outcomes of Life</mat-label>
+                        <mat-select formControlName="outcomesOfLife">
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="w-full mt-6" *ngIf="inboxForm.get('isProject')?.value === 'yes'">
+            <mat-card-content>
+                <h3>Projects</h3>
+                <div class="w-full space-x-5 mt-3 flex">
+                    <mat-checkbox formControlName="isNewProject" class="-ml-2 mt-2">Create a new project (more than one action is needed)</mat-checkbox>
+                    <mat-form-field class="grow">
+                        <mat-label>Project Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="newProjectName"
+                        />
+                    </mat-form-field>
+                </div>
+                <mat-form-field class="w-full space-x-5 mt-3">
+                    <mat-label>Add this project and/or action to the following project</mat-label>
+                    <mat-select formControlName="projectParent">
+                        <mat-option value="one">First option</mat-option>
+                        <mat-option value="two">Second option</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </mat-card-content>
+        </mat-card>
+        <button
+            mat-raised-button
+            color="primary"
+            *ngIf="inboxForm.get('isProject')?.value === 'yes' || inboxForm.get('isQuickAction')?.value === 'no'"
+            (click)="(onUpdateTask)"
+            class="my-6"
+        >
+            Update Task
+        </button>
+    </div>
+</form>
