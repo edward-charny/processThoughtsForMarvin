@@ -1,4 +1,4 @@
-<h2>Process Inbox</h2>
+<h2 class="inline-block">Process Inbox</h2> <span class="ml-2">(1 of {{ taskCount }})</span>
 <form [formGroup]="inboxForm" (ngSubmit)="onSubmit()">
     <div class="flex flex-col">
         <!-- Basic thought info -->
@@ -152,31 +152,33 @@
                 </mat-form-field>
                 <div class="w-full space-x-5 mt-3">
                     <mat-form-field>
+                        <mat-label>Topic</mat-label>
+                        <mat-select formControlName="topic">
+                            <mat-option *ngFor="let label of topics" [value]="label._id">{{ label.title }}</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field>
                         <mat-label>Context</mat-label>
                         <mat-select formControlName="context">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of contexts" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Duration</mat-label>
                         <mat-select formControlName="duration">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of durations" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Energy</mat-label>
                         <mat-select formControlName="energy">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of energies" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Priority</mat-label>
                         <mat-select formControlName="priority">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of priorities" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -219,36 +221,31 @@
                     <mat-form-field>
                         <mat-label>Responsibilities</mat-label>
                         <mat-select formControlName="responsibilities">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of responsibilities" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Short Term Goals</mat-label>
                         <mat-select formControlName="shortTermGoals">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of shortTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Medium Term Goals</mat-label>
                         <mat-select formControlName="mediumTermGoals">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of mediumTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Long Term Goals</mat-label>
                         <mat-select formControlName="longTermGoals">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of longTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Outcomes of Life</mat-label>
                         <mat-select formControlName="outcomesOfLife">
-                            <mat-option value="one">First option</mat-option>
-                            <mat-option value="two">Second option</mat-option>
+                            <mat-option *ngFor="let label of outcomesOfLife" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>

@@ -41,3 +41,5 @@ testem.log
 .DS_Store
 Thumbs.db
 marvin-cli.json
+marvin-configs.json
+MarvinBackup-20231024.json
