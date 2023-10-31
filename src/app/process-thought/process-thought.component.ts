@@ -1,15 +1,19 @@
-import { Subscription, forkJoin, take } from 'rxjs';
+import { forkJoin, take } from 'rxjs';
 
+import { FlatTreeControl } from '@angular/cdk/tree';
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
+import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MarvinService } from '../marvin.service';
-import { Label, LabelGroup, Project, Task } from '../interfaces';
+import { Label, Project, Task } from '../interfaces';
+import { CountdownEvent } from 'ngx-countdown';
 
 @Component({
   selector: 'app-process-thought',
   templateUrl: './process-thought.component.html',
-  styleUrls: ['./process-thought.component.scss']
+    styleUrls: ['./process-thought.component.scss'],
 })
 export class ProcessThoughtComponent implements OnInit, OnDestroy {
   tasks: Task[];
@@ -18,7 +22,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
   thought: string;
   comment: string;
 
-  statuses: string[] = [];
+  statuses: Label[] = [];
   
   //labels
   ungroupedLabels: Label[] = [];
@@ -35,9 +39,10 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
   longTermGoals: Label[] = [];
   outcomesOfLife: Label[] = [];
 
-  inboxForm: FormGroup; 
+  inboxForm: FormGroup;
+  isTimerEnabled: boolean;
 
-  constructor(private marvinService: MarvinService) {}
+  constructor(private _snackBar: MatSnackBar, private marvinService: MarvinService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -62,7 +67,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
     forkJoin({
       groups: this.marvinService.getLabelGroups().pipe(take(1)),
       labels: this.marvinService.getLabels().pipe(take(1)),
-    }).subscribe(results => {
+        }).subscribe((results) => {
     this.processLabelCategories(results.groups?.val, results.labels);
     });
   }
@@ -103,6 +108,12 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
     console.log('Complete triggered');
   }
 
+  onCountdown(event: CountdownEvent) {
+        if (event.action === 'done') {
+            this._snackBar.open('2 minutes have ended!!', 'X');
+    }
+  }
+
   onDiscard() {
     console.log('Discard triggered');
   }
@@ -116,7 +127,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
   }
 
   onStartNow() {
-    console.log('Start Now triggered');
+    this.isTimerEnabled = true;
   }
 
   onSubmit() {
@@ -131,7 +142,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
     console.log('label groups', groups);
     console.log('labels', labels);
 
-    labels.forEach(label => {
+        labels.forEach((label) => {
       // console.log('label: ', label);
       // console.log('title: ', groups[label.groupId]?.title);
       // console.log('group: ', groups[label.groupId]);
@@ -152,27 +163,37 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
           this.topics.push(label);
           break;
         case 'Responsibilities':
+          label.title = label.title.replace('Responsibility ', '');
           this.responsibilities.push(label);
           break;
         case 'Goals - Short Term':
+          label.title = label.title.replace('Goal ', '');
           this.shortTermGoals.push(label);
           break;
         case 'Goals - Medium Term':
+          label.title = label.title.replace('Goal ', '');
           this.mediumTermGoals.push(label);
           break;
         case 'Goals - Long Term':
+          label.title = label.title.replace('Goal ', '');
           this.longTermGoals.push(label);
           break;
         case 'Outcomes':
+                    if (label.title !== 'Outcome of life') {
+            label.title = label.title.replace('Outcome ', '');
+          }
           this.outcomesOfLife.push(label);
           break;
         default:
-          this.ungroupedLabels.push(label);
+                    if (label.title.includes('Goal')) {
+            this.ungroupedLabels.push(label);
+          } else {
+            this.statuses.push(label);
+          }
           break;
       }
     });
   }
 
-  ngOnDestroy(): void {
-  }
+    ngOnDestroy(): void {}
 }

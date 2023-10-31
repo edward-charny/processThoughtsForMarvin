@@ -14,7 +14,7 @@ export class MarvinService {
   constructor(private http: HttpClient) { }
 
   getInbox(): Observable<Array<Project | Task>> {
-    return this.getProjectChildren('unassigned');
+    return this.getProjectsByParent('unassigned');
   }
 
   getLabelGroups() {
@@ -27,7 +27,13 @@ export class MarvinService {
     return this.http.get<Label[]>(this.apiUrl + 'labels', { headers });
   }
 
-  getProjectChildren(projectId: string): Observable<Array<Project | Task>> {
+  getProjects() {
+    const headers = new HttpHeaders().set('X-API-Token', marvinConfigs.apiToken);
+
+    return this.http.get<Project[]>(this.apiUrl + 'categories', { headers });
+  }
+
+  getProjectsByParent(projectId: string): Observable<Array<Project | Task>> {
     const headers = new HttpHeaders().set('X-API-Token', marvinConfigs.apiToken);
     const params = { parentId: projectId };
 
