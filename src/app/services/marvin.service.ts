@@ -2,8 +2,8 @@ import marvinConfigs from 'marvin-configs.json';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Label, Project, ProjectChildrenResponse, Task } from './interfaces';
-import { Observable } from 'rxjs';
+import { Label, Project, Task } from '../types/interfaces';
+import { Observable, take } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -27,7 +27,7 @@ export class MarvinService {
     return this.http.get<Label[]>(this.apiUrl + 'labels', { headers });
   }
 
-  getProjects() {
+  getProjects(): Observable<Project[]> {
     const headers = new HttpHeaders().set('X-API-Token', marvinConfigs.apiToken);
 
     return this.http.get<Project[]>(this.apiUrl + 'categories', { headers });

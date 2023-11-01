@@ -22,7 +22,7 @@ import { CountdownModule } from 'ngx-countdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { ProcessThoughtComponent } from './process-thought/process-thought.component';
+import { ProcessThoughtComponent } from './components/process-thought/process-thought.component';
 
 
 @NgModule({

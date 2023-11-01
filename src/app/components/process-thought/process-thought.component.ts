@@ -6,9 +6,9 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { MatTreeFlatDataSource, MatTreeFlattener, MatTreeModule } from '@angular/material/tree';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
-import { MarvinService } from '../marvin.service';
-import { Label, Project, Task } from '../interfaces';
 import { CountdownEvent } from 'ngx-countdown';
+import { MarvinService } from 'src/app/services/marvin.service';
+import { Label, Project, Task } from 'src/app/types/interfaces';
 
 @Component({
   selector: 'app-process-thought',
