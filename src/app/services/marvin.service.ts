@@ -3,7 +3,7 @@ import marvinConfigs from 'marvin-configs.json';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Label, Project, Task } from '../types/interfaces';
-import { Observable, take } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -11,7 +11,7 @@ import { Observable, take } from 'rxjs';
 export class MarvinService {
   private apiUrl = 'https://serv.amazingmarvin.com/api/';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getInbox(): Observable<Array<Project | Task>> {
     return this.getProjectsByParent('unassigned');

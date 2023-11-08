@@ -99,7 +99,7 @@ export interface LabelGroup {
 export interface Project {
     _id: string;
     color: string;
-    children?: Map<string, Project>;
+    children?: Project[];
     day: string | null | undefined;
     dayRank: number;
     db: string;
@@ -113,6 +113,7 @@ export interface Project {
     isFrogged: boolean;
     labelIds: string[];
     marvinPoints: number;
+    masterRank:number;
     mpNotes: string[];
     note: string;
     parentId: string;
@@ -287,9 +288,4 @@ export interface Task {
     time: string;
     diff: number;
   };
-}
-
-export interface TreeNodeInterface  { 
-  parent: TreeNodeInterface | null; 
-  children: TreeNodeInterface[]; 
 }
