@@ -289,3 +289,12 @@ export interface Task {
     diff: number;
   };
 }
+
+export interface UpdateTaskProps {
+  itemId: string;
+  labelIds: string[];
+  note: string;
+  parentProject: number;
+  rank: 0 | 1 | 2 | false;
+  title: string;
+}

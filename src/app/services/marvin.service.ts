@@ -2,7 +2,7 @@ import marvinConfigs from 'marvin-configs.json';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Label, Project, Task } from '../types/interfaces';
+import { Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -45,5 +45,37 @@ export class MarvinService {
     const params = { id: id };
 
     return this.http.get(this.apiUrl + 'doc', { headers, params });
+  }
+
+  setTaskDone(taskId: string): Observable<Task> {
+    const body = {
+      itemId: taskId,
+      timeZoneOffset: -300
+    };
+    const headers = new HttpHeaders().set('X-API-Token', marvinConfigs.apiToken);
+
+    return this.http.post<Task>(this.apiUrl + 'markDone', body, { headers });
+  }
+
+  updateTask(task: UpdateTaskProps): Observable<Task> {
+    const headers = new HttpHeaders().set('X-Full-Access-Token', marvinConfigs.fullAccessToken);
+    const body = {
+      itemId: task.itemId,
+      setters: [
+        { key: 'labelIds', val: task.labelIds },
+        { key: 'note', val: task.note },
+        { key: 'parentId', val: task.parentProject },
+        { key: 'rank', val: task.rank },
+        { key: 'title', val: task.title },
+        { key: 'fieldUpdates.labelIds', val: Date.now() },
+        { key: 'fieldUpdates.note', val: Date.now() },
+        { key: 'fieldUpdates.parentId', val: Date.now() },
+        { key: 'fieldUpdates.rank', val: Date.now() },
+        { key: 'fieldUpdates.title', val: Date.now() },
+        { key: 'updatedAt', val: Date.now() },
+      ]
+    };
+
+    return this.http.post<Task>(this.apiUrl + '/doc/update', body, { headers });
   }
 }
