@@ -1,13 +1,13 @@
 import { forkJoin, take } from 'rxjs';
 
 import { NestedTreeControl } from '@angular/cdk/tree';
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MarvinService } from '../../services/marvin.service';
-import { Label, Project, Task, UpdateTaskProps } from '../../types/interfaces';
+import { BackburnerItem, Label, Project, Task, UpdateTaskProps } from '../../types/interfaces';
 import { CountdownEvent } from 'ngx-countdown';
 import { TreeBuilder } from 'src/app/types/tree';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -61,6 +61,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
 
     constructor(
         private _snackBar: MatSnackBar,
+        private cdRef: ChangeDetectorRef,
         private formBuilder: FormBuilder,
         private marvinService: MarvinService
     ) {
@@ -106,9 +107,50 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
                     (task) => task.db === 'Tasks' && !task.done
                 ) as Task[];
                 this.taskCount = this.tasks.length;
-                this.comment = this.tasks[this.thoughtIndex].note;
-                this.thought = this.tasks[this.thoughtIndex].title;
-                this.thoughtId = this.tasks[this.thoughtIndex]._id;
+                const task = this.tasks[this.thoughtIndex];
+                this.comment = task.note;
+                this.thought = task.title;
+                this.thoughtId = task._id;
+                const priorities = task.rank?.toString();
+
+                //prepopulate dropdowns for thoughts being reprocessed
+                if(task.labelIds.length > 0) {
+                    console.log('labels: ', task.labelIds);
+                    const ungroupedLabels = this.filterAndMap(this.ungroupedLabels, task.labelIds);
+                    const topics = this.filterAndMap(this.topics, task.labelIds);
+                    const contexts = this.filterAndMap(this.contexts, task.labelIds);
+                    const durations = this.filterAndMap(this.durations, task.labelIds);
+                    const energies = this.filterAndMap(this.energies, task.labelIds);
+                    
+                    const statuses = this.filterAndMap(this.statuses, task.labelIds);
+                    const responsibilities = this.filterAndMap(this.responsibilities, task.labelIds);
+                    const shortTermGoals = this.filterAndMap(this.shortTermGoals, task.labelIds);
+                    const mediumTermGoals = this.filterAndMap(this.mediumTermGoals, task.labelIds);
+                    const longTermGoals = this.filterAndMap(this.longTermGoals, task.labelIds);
+                    const outcomesOfLife = this.filterAndMap(this.outcomesOfLife, task.labelIds);
+
+                    this.inboxForm.patchValue({
+                        isActionable: 'yes',
+                        isProject: 'no',
+                        isQuickAction: 'no',
+                        topic: topics,
+                        // ungroupedLabels: ungroupedLabels,
+                        context: contexts,
+                        duration: durations.length === 1 ? durations[0] : '',
+                        energy: energies.length === 1 ? energies[0] : '',
+                        priority: priorities,
+                        status: statuses,
+                        // dueDate: [''],
+                        // startDate: [''],
+                        goals: {
+                            responsibilities: responsibilities,
+                            shortTermGoals: shortTermGoals,
+                            mediumTermGoals: mediumTermGoals,
+                            longTermGoals: longTermGoals,
+                            outcomesOfLife: outcomesOfLife
+                        }
+                    });
+                }
             });
 
         // get labels
@@ -135,6 +177,15 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
                     // console.log( this.projects); // Output: Array of root nodes representing the built tree structure
                 });
         }
+    }
+
+    private filterAndMap(arr: Label[], labelIds: string[]): string[] {
+        return arr.reduce((result: string[], value) => {
+          if (labelIds.some(labelId => value._id === labelId)) {
+            result.push(value._id);
+          }
+          return result;
+        }, []);
     }
 
     private initForm(): void {
@@ -169,6 +220,14 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
         });
     }
 
+    nextTask() {
+        this.thoughtIndex++;
+        this.comment = this.tasks[this.thoughtIndex].note;
+        this.thought = this.tasks[this.thoughtIndex].title;
+        this.thoughtId = this.tasks[this.thoughtIndex]._id;
+        this.inboxForm.reset();
+    }
+
     onComplete() {
         console.log('Complete triggered');
         this.marvinService
@@ -176,11 +235,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
             .pipe(take(1))
             .subscribe((response) => {
                 console.log(response);
-                this.thoughtIndex++;
-                this.comment = this.tasks[this.thoughtIndex].note;
-                this.thought = this.tasks[this.thoughtIndex].title;
-                this.thoughtId = this.tasks[this.thoughtIndex]._id;
-                this.inboxForm.reset();
+                this.nextTask();
             });
     }
 
@@ -199,7 +254,19 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
     }
 
     onSomedayMaybe() {
-        console.log('Someday Maybe triggered');
+        const task: BackburnerItem = {
+            itemId: this.thoughtId,
+            parentProject: 1766483747,
+            backburner: true
+        };
+        this.marvinService
+            .setTaskOnBackburner(task)
+            .pipe(take(1))
+            .subscribe((response) => {
+                console.log(response);
+                this.nextTask();
+            });
+        console.log('task: ', task);
     }
 
     onStartNow() {
@@ -246,13 +313,18 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
             itemId: this.thoughtId,
             title: this.inboxForm.value.description,
             note:   'Notes:\n' + this.inboxForm.value.notes +
-                    'Successful Outcome::\n' + this.inboxForm.value.successfulOutcome,
+                    '\nSuccessful Outcome:\n' + this.inboxForm.value.successfulOutcome,
             labelIds: labelIds,
             rank: this.inboxForm.value.priority,
             parentProject: 1765329136
         };
         this.marvinService
             .updateTask(task)
+            .pipe(take(1))
+            .subscribe((response) => {
+                console.log(response);
+                this.nextTask();
+            });
         console.log('task: ', task);
     }
 

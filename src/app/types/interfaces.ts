@@ -1,3 +1,9 @@
+export interface BackburnerItem {
+  itemId: string;
+  backburner: boolean;
+  parentProject: number;
+}
+
 export interface Challenge {
     _id: string;
     action: string;
@@ -70,8 +76,7 @@ export interface Habit {
     timeEstimate?: number;
     title: string;
     units?: string;
-  }
-  
+}
 
 export interface Label {
     _id: string;

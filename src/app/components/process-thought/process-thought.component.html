@@ -75,7 +75,7 @@
         <!-- Is this a project? -->
         <div class="w-full">
             <label id="project-radio-group-label">
-                Potentially more than a single step?
+                Potentially more than a single step or is part of a larger project?
             </label>
             <mat-radio-group
                 formControlName="isProject"
@@ -157,14 +157,14 @@
                 <div class="w-full space-x-5 mt-3">
                     <mat-form-field>
                         <mat-label>Topic</mat-label>
-                        <mat-select formControlName="topic">
+                        <mat-select formControlName="topic" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of topics" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Context</mat-label>
-                        <mat-select formControlName="context">
+                        <mat-select formControlName="context" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of contexts" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
@@ -187,17 +187,17 @@
                         <mat-label>Priority</mat-label>
                         <mat-select formControlName="priority">
                             <mat-option [value]=""></mat-option>
-                            <mat-option value=false>Could</mat-option>
-                            <mat-option value=0>Would</mat-option>
-                            <mat-option value=1>Should</mat-option>
-                            <mat-option value=2>Must</mat-option>
+                            <mat-option value='-1'>Could</mat-option>
+                            <mat-option value='0'>Would</mat-option>
+                            <mat-option value='1'>Should</mat-option>
+                            <mat-option value='2'>Must</mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
                 <div class="w-full space-x-5 mt-3">
                     <mat-form-field>
                         <mat-label>Status</mat-label>
-                        <mat-select formControlName="status">
+                        <mat-select formControlName="status" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of statuses" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
@@ -232,35 +232,35 @@
                 <div class="space-x-5" formGroupName="goals">
                     <mat-form-field>
                         <mat-label>Responsibilities</mat-label>
-                        <mat-select formControlName="responsibilities">
+                        <mat-select formControlName="responsibilities" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of responsibilities" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Short Term Goals</mat-label>
-                        <mat-select formControlName="shortTermGoals">
+                        <mat-select formControlName="shortTermGoals" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of shortTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Medium Term Goals</mat-label>
-                        <mat-select formControlName="mediumTermGoals">
+                        <mat-select formControlName="mediumTermGoals" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of mediumTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Long Term Goals</mat-label>
-                        <mat-select formControlName="longTermGoals">
+                        <mat-select formControlName="longTermGoals" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of longTermGoals" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>
                     </mat-form-field>
                     <mat-form-field>
                         <mat-label>Outcomes of Life</mat-label>
-                        <mat-select formControlName="outcomesOfLife">
+                        <mat-select formControlName="outcomesOfLife" multiple>
                             <mat-option [value]=""></mat-option>
                             <mat-option *ngFor="let label of outcomesOfLife" [value]="label._id">{{ label.title }}</mat-option>
                         </mat-select>

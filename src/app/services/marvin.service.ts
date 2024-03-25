@@ -2,7 +2,7 @@ import marvinConfigs from 'marvin-configs.json';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
+import { BackburnerItem, Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -55,6 +55,22 @@ export class MarvinService {
     const headers = new HttpHeaders().set('X-API-Token', marvinConfigs.apiToken);
 
     return this.http.post<Task>(this.apiUrl + 'markDone', body, { headers });
+  }
+
+  setTaskOnBackburner(task: BackburnerItem): Observable<Task> {
+    const headers = new HttpHeaders().set('X-Full-Access-Token', marvinConfigs.fullAccessToken);
+    const body = {
+      itemId: task.itemId,
+      setters: [
+        { key: 'backburner', val: task.backburner },
+        { key: 'parentId', val: task.parentProject },
+        { key: 'fieldUpdates.backburner', val: Date.now() },
+        { key: 'fieldUpdates.parentId', val: Date.now() },
+        { key: 'updatedAt', val: Date.now() },
+      ]
+    };
+
+    return this.http.post<Task>(this.apiUrl + '/doc/update', body, { headers });
   }
 
   updateTask(task: UpdateTaskProps): Observable<Task> {
