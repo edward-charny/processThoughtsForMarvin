@@ -2,16 +2,27 @@ import marvinConfigs from 'marvin-configs.json';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BackburnerItem, Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
+import { BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
 import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class MarvinService {
-  private apiUrl = 'http://localhost:4200/api/';  
+  private apiUrl = 'http://localhost:4200/api/';
 
   constructor(private http: HttpClient) {}
+
+  createProject(project: CreateProjectProps): Observable<Project> {
+    const headers = new HttpHeaders().set('X-Full-Access-Token', marvinConfigs.fullAccessToken);
+    const body = {
+      day: project.day,
+      title: project.title,
+      parentId: project.parentId
+    };
+
+    return this.http.post<Project>(this.apiUrl + 'addProject', body, { headers });
+  }
 
   getInbox(): Observable<Array<Project | Task>> {
     return this.getProjectsByParent('unassigned');

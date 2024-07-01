@@ -7,7 +7,8 @@ import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 import { MarvinService } from '../../services/marvin.service';
-import { BackburnerItem, Label, Project, Task, UpdateTaskProps } from '../../types/interfaces';
+import { SINGLE_ACTION_PROJECT_ID } from 'src/app/types/constants';
+import { BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps } from '../../types/interfaces';
 import { CountdownEvent } from 'ngx-countdown';
 import { TreeBuilder } from 'src/app/types/tree';
 import { SelectionModel } from '@angular/cdk/collections';
@@ -18,6 +19,7 @@ import { SelectionModel } from '@angular/cdk/collections';
     styleUrls: ['./process-thought.component.scss'],
 })
 export class ProcessThoughtComponent implements OnInit, OnDestroy {
+    singleActionsProjectId = SINGLE_ACTION_PROJECT_ID;
     tasks: Task[];
     taskCount = 0;
 
@@ -164,18 +166,18 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
         //get projects
         if (!this.projects || this.projects.length === 0) {
             this.marvinService
-                .getProjects()
-                .pipe(take(1))
-                .subscribe((projects) => {
-                    //store the flattensed project tree for teh dropdown
-                    this.flattenedProjects = projects;
-                    const treeBuilder = new TreeBuilder();
-                    this.projects = treeBuilder.buildTree(projects);
-                    this.dataSource.data = this.projects;
-                    this.showSpinner = false;
+            .getProjects()
+            .pipe(take(1))
+            .subscribe((projects) => {
+                //store the flattensed project tree for teh dropdown
+                this.flattenedProjects = projects;
+                const treeBuilder = new TreeBuilder();
+                this.projects = treeBuilder.buildTree(projects);
+                this.dataSource.data = this.projects;
+                this.showSpinner = false;
 
-                    // console.log( this.projects); // Output: Array of root nodes representing the built tree structure
-                });
+                // console.log( this.projects); // Output: Array of root nodes representing the built tree structure
+            });
         }
     }
 
@@ -275,14 +277,54 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
 
     onSubmit() {
         console.log('Submit triggered');
-    }
-
-    onUpdateTask() {
-        console.log('Update Task triggered');
-
+        
         if(!this.inboxForm.valid) {
             console.log('Form is not valid');
             return;
+        }
+
+        if(this.inboxForm.value.isNewProject === true) {
+            const project: CreateProjectProps = {
+                day: null,
+                title: this.inboxForm.value.newProjectName,
+                parentId: this.inboxForm.value.projectParent
+            };
+
+            this.marvinService
+                .createProject(project)
+                .pipe(take(1))
+                .subscribe((response: Project) => {
+                    // parentProject = //TODO: fetch updated list of projects
+                    this.marvinService
+                    .getProjects()
+                    .pipe(take(1))
+                    .subscribe((projects) => {
+                        //store the flattensed project tree for teh dropdown
+                        this.flattenedProjects = projects;
+                        const treeBuilder = new TreeBuilder();
+                        this.projects = treeBuilder.buildTree(projects);
+                        this.dataSource.data = this.projects;
+                        this.showSpinner = false;
+                        
+                        this.flattenedProjects.find((project) => {
+                            if(project._id === response._id) {
+                                this.onUpdateTask(project._id)
+                            }
+                        })
+                    });
+                    console.log(response);
+                });
+        } else {
+            this.onUpdateTask(this.inboxForm.value.projectParent ? this.inboxForm.value.projectParent : this.singleActionsProjectId);
+        }
+
+    }
+
+    onUpdateTask(parentProject: string) {
+        console.log('Update Task triggered');
+
+        if(this.inboxForm.value.newProjectName) {
+            this.inboxForm.value.isNewProject = true;
         }
 
         const labelIds: string[] = [
@@ -316,7 +358,7 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
                     '\nSuccessful Outcome:\n' + this.inboxForm.value.successfulOutcome,
             labelIds: labelIds,
             rank: this.inboxForm.value.priority,
-            parentProject: 1765329136
+            parentProject: parentProject
         };
         this.marvinService
             .updateTask(task)

@@ -347,7 +347,7 @@
             mat-raised-button
             color="primary"
             *ngIf="inboxForm.get('isProject')?.value === 'yes' || inboxForm.get('isQuickAction')?.value === 'no'"
-            (click)="onUpdateTask()"
+            (click)="onSubmit()"
             class="my-6"
         >
             Update Task
