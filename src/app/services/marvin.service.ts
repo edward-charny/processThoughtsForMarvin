@@ -81,7 +81,7 @@ export class MarvinService {
       ]
     };
 
-    return this.http.post<Task>(this.apiUrl + '/doc/update', body, { headers });
+    return this.http.post<Task>(this.apiUrl + 'doc/update', body, { headers });
   }
 
   updateTask(task: UpdateTaskProps): Observable<Task> {
@@ -103,6 +103,6 @@ export class MarvinService {
       ]
     };
 
-    return this.http.post<Task>(this.apiUrl + '/doc/update', body, { headers });
+    return this.http.post<Task>(this.apiUrl + 'doc/update', body, { headers });
   }
 }
