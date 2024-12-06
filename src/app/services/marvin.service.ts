@@ -9,7 +9,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MarvinService {
-  private apiUrl = 'http://localhost:4200/api/';
+  //private apiUrl = 'http://localhost:4200/api/';
+  // private apiUrl = marvinConfigs.urlLocal;
+  private apiUrl = marvinConfigs.urlPublic;
 
   constructor(private http: HttpClient) {}
 
