@@ -1,12 +1,24 @@
 import { TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { Component } from '@angular/core';
+
+// Add mock component
+@Component({
+  selector: 'app-process-thought',
+  template: ''
+})
+class MockProcessThoughtComponent {}
 
 import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule],
-    declarations: [AppComponent]
+    imports: [RouterTestingModule, MatToolbarModule],
+    declarations: [
+      AppComponent,
+      MockProcessThoughtComponent  // Add mock component to declarations
+    ]
   }));
 
   it('should create the app', () => {
@@ -21,10 +33,19 @@ describe('AppComponent', () => {
     expect(app.title).toEqual('processThoughtsForMarvin');
   });
 
-  it('should render title', () => {
+  it('should render toolbar with correct text', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.content span')?.textContent).toContain('processThoughtsForMarvin app is running!');
+    expect(compiled.querySelector('mat-toolbar span')?.textContent).toContain('Additional Interface');
+  });
+
+  it('should render the Amazing Marvin logo', () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const compiled = fixture.nativeElement as HTMLElement;
+    const logo = compiled.querySelector('img.logo');
+    expect(logo).toBeTruthy();
+    expect(logo?.getAttribute('alt')).toBe('Amazing Marvin');
   });
 });

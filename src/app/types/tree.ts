@@ -1,3 +1,4 @@
+import { SINGLE_ACTION_PROJECT_ID } from "./constants";
 import { Project } from "./interfaces";
 
 /* class TreeNode {
@@ -68,7 +69,7 @@ export class TreeBuilder {
 // Usage:
 const data = [
   {
-    "_id": "1765329136",
+    "_id": SINGLE_ACTION_PROJECT_ID,
     "type": "category",
     "title": "Single Actions",
     "parentId": "unassigned",

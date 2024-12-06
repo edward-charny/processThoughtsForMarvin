@@ -147,7 +147,7 @@ export interface LabelGroup {
 export interface Project {
     _id: string;
     color: string;
-    children?: Project[];
+    children?: Project[] | null | undefined;
     day: string | null | undefined;
     dayRank: number;
     db: string;
