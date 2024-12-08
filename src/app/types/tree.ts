@@ -1,5 +1,5 @@
-import { SINGLE_ACTION_PROJECT_ID } from "./constants";
-import { Project } from "./interfaces";
+import { SINGLE_ACTION_PROJECT_ID } from './constants';
+import { Project } from './interfaces';
 
 /* class TreeNode {
   _id: string;

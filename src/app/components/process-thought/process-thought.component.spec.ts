@@ -1,37 +1,36 @@
-import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
-import { Validators } from '@angular/forms';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSnackBarHarness } from '@angular/material/snack-bar/testing';
+import { CountdownEvent, CountdownStatus } from 'ngx-countdown';
+import { of } from 'rxjs';
+import { SINGLE_ACTION_PROJECT_ID } from 'src/app/types/constants';
+
+import { SelectionModel } from '@angular/cdk/collections';
 import { HarnessLoader } from '@angular/cdk/testing';
 import { TestbedHarnessEnvironment } from '@angular/cdk/testing/testbed';
-import { CountdownEvent, CountdownStatus } from 'ngx-countdown';
-import { MarvinService } from '../../services/marvin.service';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { ReactiveFormsModule } from '@angular/forms';
-import { MockMarvinService } from '../../services/mock-marvin.service';
-import { Task, Label, Project } from '../../types/interfaces';
-
-import { ProcessThoughtComponent } from './process-thought.component';
-
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatNativeDateModule } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { MatNativeDateModule } from '@angular/material/core';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatSnackBarHarness } from '@angular/material/snack-bar/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
-import { of } from 'rxjs';
-import { SINGLE_ACTION_PROJECT_ID } from 'src/app/types/constants';
-import { SelectionModel } from '@angular/cdk/collections';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
+import { MarvinService } from '../../services/marvin.service';
+import { MockMarvinService } from '../../services/mock-marvin.service';
+import { Label, Project, Task } from '../../types/interfaces';
+import { ProcessThoughtComponent } from './process-thought.component';
 
 describe('ProcessThoughtComponent', () => {
   let component: ProcessThoughtComponent;

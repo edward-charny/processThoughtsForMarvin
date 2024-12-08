@@ -1,10 +1,14 @@
-import { TestBed } from '@angular/core/testing';
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { MarvinService } from './marvin.service';
-import { CreateProjectProps, Project, Task, Label, BackburnerItem, UpdateTaskProps } from '../types/interfaces';
-import { mockLabel, mockLabel2, mockProject, mockTask } from 'src/assets/mock';
 import marvinConfigs from 'marvin-configs.json';
 import { Subscription } from 'rxjs';
+import { mockLabel, mockLabel2, mockProject, mockTask } from 'src/assets/mock';
+
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
+import { TestBed } from '@angular/core/testing';
+
+import {
+    BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps
+} from '../types/interfaces';
+import { MarvinService } from './marvin.service';
 
 describe('MarvinService', () => {
   let service: MarvinService;

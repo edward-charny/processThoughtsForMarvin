@@ -1,6 +1,10 @@
-import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
+
+import { Injectable } from '@angular/core';
+
+import {
+    BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps
+} from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'

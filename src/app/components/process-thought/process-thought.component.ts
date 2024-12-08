@@ -1,18 +1,20 @@
+import { CountdownEvent, CountdownStatus } from 'ngx-countdown';
 import { forkJoin, take } from 'rxjs';
+import { SINGLE_ACTION_PROJECT_ID } from 'src/app/types/constants';
+import { TreeBuilder } from 'src/app/types/tree';
 
+import { SelectionModel } from '@angular/cdk/collections';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatTreeNestedDataSource } from '@angular/material/tree';
 
-import { MarvinService } from '../../services/marvin.service';
-import { SINGLE_ACTION_PROJECT_ID } from 'src/app/types/constants';
-import { BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps } from '../../types/interfaces';
-import { CountdownEvent, CountdownStatus } from 'ngx-countdown';
-import { TreeBuilder } from 'src/app/types/tree';
-import { SelectionModel } from '@angular/cdk/collections';
 import { FileDownloadService } from '../../services/file-download.service';
+import { MarvinService } from '../../services/marvin.service';
+import {
+    BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps
+} from '../../types/interfaces';
 
 @Component({
     selector: 'app-process-thought',

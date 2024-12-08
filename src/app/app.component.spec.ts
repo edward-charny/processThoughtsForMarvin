@@ -1,7 +1,9 @@
-import { TestBed } from '@angular/core/testing';
-import { RouterTestingModule } from '@angular/router/testing';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { Component } from '@angular/core';
+import { TestBed } from '@angular/core/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { RouterTestingModule } from '@angular/router/testing';
+
+import { AppComponent } from './app.component';
 
 // Add mock component
 @Component({
@@ -9,8 +11,6 @@ import { Component } from '@angular/core';
   template: ''
 })
 class MockProcessThoughtComponent {}
-
-import { AppComponent } from './app.component';
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
@@ -30,7 +30,7 @@ describe('AppComponent', () => {
   it(`should have as title 'processThoughtsForMarvin'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('processThoughtsForMarvin');
+    expect(app.title).toEqual('Process Thoughts For Marvin');
   });
 
   it('should render toolbar with correct text', () => {

@@ -1,9 +1,12 @@
 import marvinConfigs from 'marvin-configs.json';
+import { Observable } from 'rxjs';
 
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps } from '../types/interfaces';
-import { Observable } from 'rxjs';
+
+import {
+    BackburnerItem, CreateProjectProps, Label, Project, Task, UpdateTaskProps
+} from '../types/interfaces';
 
 @Injectable({
   providedIn: 'root'
