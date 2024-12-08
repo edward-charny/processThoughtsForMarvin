@@ -1,4 +1,3 @@
-
 name: Deploy to GitHub Pages
 
 on:
@@ -9,9 +8,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
         with:
           node-version: '18'
           
@@ -23,9 +26,11 @@ jobs:
         run: npm ci
         
       - name: Build
-        run: npm run build -- --base-href /processThoughtsForMarvin/
+        run: npm run deploy
         
       - name: Deploy
-        uses: JamesIves/github-pages-deploy-action@v4
+        uses: peaceiris/actions-gh-pages@v3
         with:
-          folder: dist/process-thoughts-for-marvin
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dist/process-thoughts-for-marvin
+          force_orphan: true

@@ -17,7 +17,7 @@ describe('AppComponent', () => {
     imports: [RouterTestingModule, MatToolbarModule],
     declarations: [
       AppComponent,
-      MockProcessThoughtComponent  // Add mock component to declarations
+      MockProcessThoughtComponent   // Add mock component to declarations
     ]
   }));
 
