@@ -1,0 +1,14 @@
+
+{
+  "apiToken": "YOUR_API_TOKEN",
+  "fullAccessToken": "YOUR_FULL_ACCESS_TOKEN",
+  "urlPublic": "https://serv.amazingmarvin.com/api/",
+  "urlLocal": "http://localhost:12082/api/",
+  "googleAuth": {
+    "clientId": "YOUR_GOOGLE_CLIENT_ID",
+    "clientSecret": "YOUR_GOOGLE_CLIENT_SECRET",
+    "allowedUserIds": [
+      "YOUR_GOOGLE_USER_ID"
+    ]
+  }
+}
