@@ -1,6 +1,22 @@
 # ProcessThoughtsForMarvin
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 16.1.0.
+An Angular application for processing and organizing thoughts and ideas in a structured way using Amazing Marvin.
+
+## Features
+- Create and manage thoughts and ideas
+- Organize thoughts into categories
+- Search and filter functionality
+- Interactive user interface
+
+## Prerequisites
+- Node.js (v14 or higher)
+- npm (v6 or higher)
+- Angular CLI (v16.1.0)
+
+## Installation
+1. Clone the repository
+2. Run `npm install`
+3. Run `ng serve` to start the development server
 
 ## Development server
 
