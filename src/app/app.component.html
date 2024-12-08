@@ -1,14 +1,19 @@
 <!-- Toolbar -->
-<mat-toolbar>
-  <img width="120" alt="Amazing Marvin" src="assets/marvin_logo.png" class="logo">
-  <span class="ml-3">Additional Interface</span>
+<mat-toolbar class="justify-between">
+  <div class="flex items-center">
+    <img width="120" alt="Amazing Marvin" src="assets/marvin_logo.png" class="logo">
+    <span class="ml-3">Additional Interface</span>
+  </div>
+  <button mat-icon-button *ngIf="loggedIn" (click)="signOut()" aria-label="Logout">
+    <mat-icon>logout</mat-icon>
+  </button>
 </mat-toolbar>
 
 <div class="container mx-auto mt-5 px-4 " role="main" *ngIf="loggedIn">
   <app-process-thought></app-process-thought>
 </div>
 
-<div class="container mx-auto mt-5 px-4" role="main" *ngIf="!loggedIn && !user?.id">
+<div class="container mx-auto mt-5 px-4 flex flex-col items-center" role="main" *ngIf="!loggedIn && !user?.id">
   <p class="text-center">Please sign in to continue</p>
   <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button>
 </div>

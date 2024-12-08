@@ -23,4 +23,11 @@ export class AppComponent implements OnInit {
       this.loggedIn = marvinConfigs.googleAuth.allowedUserIds.includes(user.id);
     });
   }
+
+  signOut(): void {
+    this.authService.signOut().then(() => {
+      this.user = new SocialUser();
+      this.loggedIn = false;
+    });
+  }
 }
