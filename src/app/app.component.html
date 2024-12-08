@@ -4,10 +4,16 @@
   <span class="ml-3">Additional Interface</span>
 </mat-toolbar>
 
-<div class="container mx-auto mt-5 px-4 " role="main">
-
+<div class="container mx-auto mt-5 px-4 " role="main" *ngIf="loggedIn">
   <app-process-thought></app-process-thought>
-
 </div>
 
+<div class="container mx-auto mt-5 px-4" role="main" *ngIf="!loggedIn && !user?.id">
+  <p class="text-center">Please sign in to continue</p>
+  <asl-google-signin-button type='icon' size='medium'></asl-google-signin-button>
+</div>
+
+<div class="container mx-auto mt-5 px-4" role="main" *ngIf="!loggedIn && user.id">
+  <p class="text-center">User not allowed</p>
+</div>
 <router-outlet></router-outlet>

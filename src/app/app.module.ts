@@ -1,3 +1,6 @@
+import { CountdownModule } from 'ngx-countdown';
+
+import { GoogleSigninButtonModule, SocialLoginModule } from '@abacritt/angularx-social-login';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -20,12 +23,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatTreeModule } from '@angular/material/tree';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { CountdownModule } from 'ngx-countdown';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ProcessThoughtComponent } from './components/process-thought/process-thought.component';
-
+import { AuthService } from './services/auth.service';
 
 @NgModule({
   declarations: [
@@ -38,6 +40,7 @@ import { ProcessThoughtComponent } from './components/process-thought/process-th
     BrowserModule,
     CountdownModule,
     FormsModule,
+    GoogleSigninButtonModule,
     HttpClientModule,
     MatAutocompleteModule,
     MatButtonModule,
@@ -56,9 +59,13 @@ import { ProcessThoughtComponent } from './components/process-thought/process-th
     MatToolbarModule,
     MatTooltipModule,
     MatTreeModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    SocialLoginModule
   ],
-  providers: [],
+  providers: [{
+    provide: 'SocialAuthServiceConfig',
+    useValue: AuthService.getAuthServiceConfigs()
+  }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
