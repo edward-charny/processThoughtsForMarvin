@@ -379,27 +379,27 @@ export class ProcessThoughtComponent implements OnInit, OnDestroy {
         }
 
         const labelIds: string[] = [
-            this.inboxForm.value.topic,
-            this.inboxForm.value.context,
+            ...this.inboxForm.value.topic,
+            ...this.inboxForm.value.context,
             this.inboxForm.value.duration,
             this.inboxForm.value.energy,
-            this.inboxForm.value.status,
+            ...this.inboxForm.value.status,
         ];
 
-        if(this.inboxForm.value.goals.responsibilities) {
-            labelIds.push(this.inboxForm.value.goals.responsibilities);
+        if(this.inboxForm.value.goals.responsibilities?.length > 0) {
+            labelIds.push(...this.inboxForm.value.goals.responsibilities);
         }
-        if(this.inboxForm.value.goals.shortTermGoals) {
-            labelIds.push(this.inboxForm.value.goals.shortTermGoals);
+        if(this.inboxForm.value.goals.shortTermGoals?.length > 0) {
+            labelIds.push(...this.inboxForm.value.goals.shortTermGoals);
         }
-        if(this.inboxForm.value.goals.mediumTermGoals) {
-            labelIds.push(this.inboxForm.value.goals.mediumTermGoals);
+        if(this.inboxForm.value.goals.mediumTermGoals?.length > 0) {
+            labelIds.push(...this.inboxForm.value.goals.mediumTermGoals);
         }
-        if(this.inboxForm.value.goals.longTermGoals) {
-            labelIds.push(this.inboxForm.value.goals.longTermGoals);
+        if(this.inboxForm.value.goals.longTermGoals?.length > 0) {
+            labelIds.push(...this.inboxForm.value.goals.longTermGoals);
         }
-        if(this.inboxForm.value.goals.outcomesOfLife) {
-            labelIds.push(this.inboxForm.value.goals.outcomesOfLife);
+        if(this.inboxForm.value.goals.outcomesOfLife?.length > 0) {
+            labelIds.push(...this.inboxForm.value.goals.outcomesOfLife);
         }
 
         const task: UpdateTaskProps = {
