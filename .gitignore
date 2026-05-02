@@ -44,3 +44,5 @@ Thumbs.db
 marvin-cli.json
 marvin-configs.json
 MarvinBackup-20231024.json
+.claude/settings.local.json
+docs/superpowers
