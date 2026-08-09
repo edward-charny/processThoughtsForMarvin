@@ -85,6 +85,7 @@ describe('ProcessThoughtComponent', () => {
     getLabelGroupsSpy = spyOn(marvinService, 'getLabelGroups').and.returnValue(of({ val: mockMarvinService.mockLabelGroups }));
     getLabelsSpy = spyOn(marvinService, 'getLabels').and.returnValue(of(mockMarvinService.mockLabels));
     getProjectsSpy = spyOn(marvinService, 'getProjects').and.returnValue(of(mockMarvinService.mockProjects));
+    updateTaskSpy = spyOn(marvinService, 'updateTask').and.returnValue(of({} as Task));
     component.checklistSelection = new SelectionModel<Project>(true /* multiple */);
     fixture.detectChanges();
     
@@ -336,8 +337,8 @@ describe('ProcessThoughtComponent', () => {
       notes: 'Test Notes',
       topic: ['topic1'],
       context: ['context1'],
-      duration: ['duration1'],
-      energy: ['energy1'],
+      duration: 'duration1',
+      energy: 'energy1',
       status: ['status1'],
       priority: 1,
       goals: {
@@ -533,6 +534,7 @@ describe('ProcessThoughtComponent', () => {
 
   it('should handle download data flag', () => {
     component.downloadData = true;
+    component.projects = [];
     const mockProjects = [{ _id: 'project1', title: 'Project 1' }];
 
     getInboxSpy.and.returnValue(of([]));
@@ -543,6 +545,6 @@ describe('ProcessThoughtComponent', () => {
 
     component.fetchData();
 
-    expect(component['fileDownloadService'].saveToCSV).toHaveBeenCalledWith('projects', mockProjects);
+    expect(component['fileDownloadService'].saveToCSV).toHaveBeenCalledWith('projects', component.projects);
   });
 });

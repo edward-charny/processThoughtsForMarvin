@@ -2,8 +2,11 @@ import { Component } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { RouterTestingModule } from '@angular/router/testing';
+import { GoogleSigninButtonModule } from '@abacritt/angularx-social-login';
 
 import { AppComponent } from './app.component';
+
+import { AuthService } from './services/auth.service';
 
 // Add mock component
 @Component({
@@ -14,11 +17,15 @@ class MockProcessThoughtComponent {}
 
 describe('AppComponent', () => {
   beforeEach(() => TestBed.configureTestingModule({
-    imports: [RouterTestingModule, MatToolbarModule],
+    imports: [RouterTestingModule, MatToolbarModule, GoogleSigninButtonModule],
     declarations: [
       AppComponent,
       MockProcessThoughtComponent   // Add mock component to declarations
-    ]
+    ],
+    providers: [{
+      provide: 'SocialAuthServiceConfig',
+      useValue: AuthService.getAuthServiceConfigs()
+    }]
   }));
 
   it('should create the app', () => {
